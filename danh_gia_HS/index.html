@@ -87,12 +87,14 @@
             color: white !important;
         }
         .sidebar-link i {
-            margin-right: 0.75rem;
+            margin-left: -1.5rem; /* Maximized spacing */
             width: 1.25rem;
             height: 1.25rem;
             color: #9B9B9B;
             transition: color 0.2s;
+            flex-shrink: 0;
         }
+
         .table-action-btn {
             padding: 0.25rem 0.5rem;
             border-radius: 0.375rem;
@@ -106,7 +108,7 @@
             font-weight: 600;
             color: var(--primary-blue);
         }
-         .tab-button { padding: 0.5rem 1rem; border-bottom: 2px solid transparent; font-weight: 500; color: var(--text-light); transition: all 0.2s; }
+        .tab-button { padding: 0.5rem 1rem; border-bottom: 2px solid transparent; font-weight: 500; color: var(--text-light); transition: all 0.2s; }
         .tab-button:hover { color: var(--primary-blue); }
         .tab-button.active { color: var(--primary-blue); border-bottom-color: var(--primary-blue); font-weight: 600; }
         .tab-panel { display: none; }
@@ -122,6 +124,16 @@
             font-weight: bold;
             background-color: #f9fafb;
         }
+        
+        /* Sticky Table Styles */
+        .evaluation-table th, .evaluation-table td {
+            white-space: normal; /* Allow text wrapping */
+        }
+        .evaluation-table .sticky-header th {
+            position: sticky;
+            top: 0;
+            z-index: 20;
+        }
         .sticky-col {
             position: sticky;
             left: 0;
@@ -132,9 +144,23 @@
             left: 150px; /* Adjust based on the width of the first sticky column */
             z-index: 10;
         }
-        .evaluation-table th, .evaluation-table td {
-            white-space: normal; /* Allow text wrapping */
+        /* Ensure corner cells are on top */
+        .evaluation-table .sticky-header .sticky-col,
+        .evaluation-table .sticky-header .sticky-col-2 {
+            z-index: 30;
         }
+        
+        /* Highlighting for roles and groups */
+        .select-highlight.group-1 { background-color: #FEF2F2 !important; }
+        .select-highlight.group-2 { background-color: #F0FDF4 !important; }
+        .select-highlight.group-3 { background-color: #FFFBEB !important; }
+        .select-highlight.group-4 { background-color: #EFF6FF !important; }
+        .select-highlight.group-5 { background-color: #F5F3FF !important; }
+        
+        .select-highlight.task-leader { background-color: #FDE68A !important; font-weight: 600; }
+        .select-highlight.task-deputy { background-color: #BFDBFE !important; font-weight: 600; }
+        .select-highlight.task-monitor { background-color: #A7F3D0 !important; font-weight: 600; }
+
         .disabled-ui {
             opacity: 0.6;
             cursor: not-allowed;
@@ -150,53 +176,58 @@
             <!-- SIDEBAR -->
             <aside id="sidebar" class="w-64 bg-white p-4 flex-shrink-0 border-r">
                 <!-- Logo -->
-                 <div class="flex items-center space-x-3 mb-8 px-2">
-                    <img src="logo.png" alt="School Logo" class="w-10 h-10 rounded-lg">
-                    <span class="font-bold text-xl text-primary">Tuệ Đức Pathway School</span>
+                <div class="flex items-center space-x-3 mb-10 px-2">
+                    <img src="logo.png" alt="School Logo" class="w-24 h-24 rounded-lg">
+                    <span class="font-bold text-lg text-primary">Tuệ Đức Pathway</span>
                 </div>
                 <!-- Navigation -->
                 <nav id="sidebar-nav" class="space-y-2">
                     <a href="#" class="sidebar-link" data-screen="dashboard" data-role="admin chuyen_mon">
-                        <i data-lucide="layout-dashboard"></i> Bảng điều khiển
+                        <i data-lucide="layout-dashboard"></i>Bảng điều khiển
                     </a>
                     
                     <!-- Admin & Chuyen Mon Only -->
                     <div data-role="admin chuyen_mon" class="role-menu">
                         <p class="px-2 text-xs font-semibold text-light uppercase tracking-wider mt-4 mb-2">Quản trị</p>
-                        <a href="#" class="sidebar-link" data-screen="student-management" data-role="admin chuyen_mon">
-                            <i data-lucide="users"></i> Quản lý Học sinh
+                        <a href="#" class="sidebar-link" data-screen="student-management" data-role="admin chuyen_mon teacher">
+                            <i data-lucide="users"></i>Quản lý Học sinh
                         </a>
                          <a href="#" class="sidebar-link" data-screen="class-management" data-role="admin chuyen_mon">
-                            <i data-lucide="school"></i> Quản lý Lớp học
+                            <i data-lucide="school"></i>Quản lý Lớp học
                         </a>
                          <a href="#" class="sidebar-link" data-screen="teacher-management" data-role="admin chuyen_mon">
-                            <i data-lucide="user-cog"></i> Quản lý Giáo viên
+                            <i data-lucide="user-cog"></i>Quản lý Giáo viên
                         </a>
                         <a href="#" class="sidebar-link" data-screen="facility-management" data-role="admin chuyen_mon">
-                            <i data-lucide="building"></i> Quản lý Cơ sở
+                            <i data-lucide="building"></i>Quản lý Cơ sở
                         </a>
                          <a href="#" class="sidebar-link" data-screen="academic-management" data-role="admin chuyen_mon">
-                            <i data-lucide="calendar-days"></i> Năm học & Kỳ
+                            <i data-lucide="calendar-days"></i>Năm học & Kỳ
                         </a>
                         <a href="#" class="sidebar-link" data-screen="academic-subject-management" data-role="admin chuyen_mon">
-                            <i data-lucide="book-copy"></i> Quản lý Môn học VH
+                            <i data-lucide="book-copy"></i>Quản lý Môn học VH
                         </a>
                         <a href="#" class="sidebar-link" data-screen="skill-subject-management" data-role="admin chuyen_mon">
-                            <i data-lucide="book-marked"></i> Quản lý Môn Kỹ năng
+                            <i data-lucide="book-marked"></i>Quản lý Môn Kỹ năng
                         </a>
+
+                        
                     </div>
                     
                     <!-- Teacher (GVCN/GVTA) & Skill Teacher (GVKN) -->
                     <div data-role="teacher teacher_english skill_teacher" class="role-menu">
                         <p class="px-2 text-xs font-semibold text-light uppercase tracking-wider mt-4 mb-2">Giáo viên</p>
+                        <a href="#" class="sidebar-link" data-screen="student-management" data-role="teacher">
+                            <i data-lucide="users"></i>Quản lý Học sinh
+                        </a>
                         <a href="#" class="sidebar-link" data-screen="class-setup" data-role="teacher teacher_english skill_teacher">
-                            <i data-lucide="clipboard-list"></i> Thiết lập Lớp học
+                            <i data-lucide="clipboard-list"></i>Thiết lập Lớp học
                         </a>
                         <a href="#" class="sidebar-link" data-screen="evaluation-input" data-role="teacher teacher_english skill_teacher">
-                            <i data-lucide="edit-3"></i> Nhập Đánh giá
+                            <i data-lucide="edit-3"></i>Nhập Đánh giá
                         </a>
                         <a href="#" class="sidebar-link" data-screen="report-export" data-role="teacher teacher_english skill_teacher">
-                            <i data-lucide="file-output"></i> Xuất Báo cáo
+                            <i data-lucide="file-output"></i>Xuất Báo cáo
                         </a>
                     </div>
                 </nav>
@@ -210,11 +241,11 @@
                             <!-- Right: User Menu -->
                             <div class="flex items-center space-x-4">
                                 <div id="admin-switcher" class="hidden items-center space-x-2">
-                                     <i data-lucide="building-2" class="w-5 h-5 text-gray-500"></i>
-                                     <select class="border-none bg-transparent text-sm font-medium focus:ring-0">
-                                         <option>Cơ sở A (Hiện tại)</option>
-                                         <option>Cơ sở B</option>
-                                     </select>
+                                    <i data-lucide="building-2" class="w-5 h-5 text-gray-500"></i>
+                                    <select class="border-none bg-transparent text-sm font-medium focus:ring-0">
+                                        <option>Cơ sở A (Hiện tại)</option>
+                                        <option>Cơ sở B</option>
+                                    </select>
                                 </div>
                                 <button class="relative p-2 rounded-full hover:bg-gray-100">
                                     <i data-lucide="bell" class="w-6 h-6 text-gray-600"></i>
@@ -640,155 +671,181 @@
 
                                      <!-- Tab 1: Group & Task Assignment -->
                                      <div class="tab-panel active" id="tab-assignment">
-                                        <div class="flex justify-end mb-4">
+                                        <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-4 gap-4">
+                                            <div>
+                                                <label for="class-setup-group-filter" class="text-sm font-medium mr-2">Lọc theo nhóm:</label>
+                                                <select id="class-setup-group-filter" class="p-2 border rounded-md text-sm focus:ring-primary focus:border-primary">
+                                                    <option value="all">Tất cả</option>
+                                                    <option value="1">Nhóm 1</option>
+                                                    <option value="2">Nhóm 2</option>
+                                                    <option value="3">Nhóm 3</option>
+                                                    <option value="4">Nhóm 4</option>
+                                                    <option value="5">Nhóm 5</option>
+                                                    <option value="none">Chưa phân nhóm</option>
+                                                </select>
+                                            </div>
                                             <button class="btn-accent py-2 px-4 rounded-lg flex items-center space-x-2 text-sm"><i data-lucide="upload" class="w-4 h-4"></i><span>Import Phân nhóm</span></button>
                                         </div>
-                                        <div class="overflow-x-auto">
-                                            <table class="w-full text-sm text-left">
-                                                <thead class="text-xs text-gray-700 uppercase bg-gray-50">
-                                                    <tr>
-                                                        <th class="px-6 py-3">STT</th>
-                                                        <th class="px-6 py-3">Họ và tên</th>
-                                                        <th class="px-6 py-3">Phân nhóm</th>
-                                                        <th class="px-6 py-3">Phân công Nhiệm vụ</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr class="bg-white border-b hover:bg-gray-50">
-                                                        <td class="px-6 py-4">1</td>
-                                                        <td class="px-6 py-4 font-medium text-gray-900">Lê An</td>
-                                                        <td class="px-6 py-4">
-                                                            <select class="p-2 border rounded-md w-full text-sm focus:ring-primary focus:border-primary">
-                                                                <option>Chưa phân nhóm</option>
-                                                                <option selected>Nhóm 1</option>
-                                                                <option>Nhóm 2</option>
-                                                                <option>Nhóm 3</option>
-                                                                <option>Nhóm 4</option>
-                                                                <option>Nhóm 5</option>
-                                                            </select>
-                                                        </td>
-                                                        <td class="px-6 py-4">
-                                                            <select class="p-2 border rounded-md w-full text-sm focus:ring-primary focus:border-primary">
-                                                                <option>Không có</option>
-                                                                <option selected>Lớp trưởng</option>
-                                                                <option>Lớp phó</option>
-                                                                <option>Tổ trưởng</option>
-                                                            </select>
-                                                        </td>
-                                                    </tr>
-                                                    <tr class="bg-white border-b hover:bg-gray-50">
-                                                        <td class="px-6 py-4">2</td>
-                                                        <td class="px-6 py-4 font-medium text-gray-900">Nguyễn Văn B</td>
-                                                        <td class="px-6 py-4">
-                                                            <select class="p-2 border rounded-md w-full text-sm focus:ring-primary focus:border-primary">
-                                                                <option>Chưa phân nhóm</option>
-                                                                <option selected>Nhóm 1</option>
-                                                                <option>Nhóm 2</option>
-                                                                <option>Nhóm 3</option>
-                                                                <option>Nhóm 4</option>
-                                                                <option>Nhóm 5</option>
-                                                            </select>
-                                                        </td>
-                                                        <td class="px-6 py-4">
-                                                            <select class="p-2 border rounded-md w-full text-sm focus:ring-primary focus:border-primary">
-                                                                <option selected>Không có</option>
-                                                                <option>Lớp trưởng</option>
-                                                                <option>Lớp phó</option>
-                                                                <option>Tổ trưởng</option>
-                                                            </select>
-                                                        </td>
-                                                    </tr>
-                                                    <tr class="bg-white border-b hover:bg-gray-50">
-                                                        <td class="px-6 py-4">3</td>
-                                                        <td class="px-6 py-4 font-medium text-gray-900">Trần Bình</td>
-                                                        <td class="px-6 py-4">
-                                                            <select class="p-2 border rounded-md w-full text-sm focus:ring-primary focus:border-primary">
-                                                                <option>Chưa phân nhóm</option>
-                                                                <option>Nhóm 1</option>
-                                                                <option selected>Nhóm 2</option>
-                                                                <option>Nhóm 3</option>
-                                                                <option>Nhóm 4</option>
-                                                                <option>Nhóm 5</option>
-                                                            </select>
-                                                        </td>
-                                                        <td class="px-6 py-4">
-                                                            <select class="p-2 border rounded-md w-full text-sm focus:ring-primary focus:border-primary">
-                                                                <option>Không có</option>
-                                                                <option>Lớp trưởng</option>
-                                                                <option selected>Lớp phó</option>
-                                                                <option>Tổ trưởng</option>
-                                                            </select>
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
+                                         <div class="overflow-x-auto">
+                                             <table id="assignment-table" class="w-full text-sm text-left">
+                                                 <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+                                                     <tr>
+                                                         <th class="px-6 py-3">STT</th>
+                                                         <th class="px-6 py-3">Họ và tên</th>
+                                                         <th class="px-6 py-3">Phân nhóm</th>
+                                                         <th class="px-6 py-3">Phân công Nhiệm vụ</th>
+                                                     </tr>
+                                                 </thead>
+                                                 <tbody>
+                                                     <tr class="bg-white border-b hover:bg-gray-50" data-group="1">
+                                                         <td class="px-6 py-4">1</td>
+                                                         <td class="px-6 py-4 font-medium text-gray-900">Lê An</td>
+                                                         <td class="px-6 py-4">
+                                                             <select class="p-2 border rounded-md w-full text-sm focus:ring-primary focus:border-primary student-group-select select-highlight">
+                                                                 <option value="none">Chưa phân nhóm</option>
+                                                                 <option value="1" selected>Nhóm 1</option>
+                                                                 <option value="2">Nhóm 2</option>
+                                                                 <option value="3">Nhóm 3</option>
+                                                                 <option value="4">Nhóm 4</option>
+                                                                 <option value="5">Nhóm 5</option>
+                                                             </select>
+                                                         </td>
+                                                         <td class="px-6 py-4">
+                                                             <select class="p-2 border rounded-md w-full text-sm focus:ring-primary focus:border-primary student-task-select select-highlight">
+                                                                 <option value="none">Không có</option>
+                                                                 <option value="leader" selected>Lớp trưởng</option>
+                                                                 <option value="deputy">Lớp phó</option>
+                                                                 <option value="monitor">Tổ trưởng</option>
+                                                             </select>
+                                                         </td>
+                                                     </tr>
+                                                     <tr class="bg-white border-b hover:bg-gray-50" data-group="1">
+                                                         <td class="px-6 py-4">2</td>
+                                                         <td class="px-6 py-4 font-medium text-gray-900">Nguyễn Văn B</td>
+                                                         <td class="px-6 py-4">
+                                                             <select class="p-2 border rounded-md w-full text-sm focus:ring-primary focus:border-primary student-group-select select-highlight">
+                                                                 <option value="none">Chưa phân nhóm</option>
+                                                                 <option value="1" selected>Nhóm 1</option>
+                                                                 <option value="2">Nhóm 2</option>
+                                                                 <option value="3">Nhóm 3</option>
+                                                                 <option value="4">Nhóm 4</option>
+                                                                 <option value="5">Nhóm 5</option>
+                                                             </select>
+                                                         </td>
+                                                         <td class="px-6 py-4">
+                                                             <select class="p-2 border rounded-md w-full text-sm focus:ring-primary focus:border-primary student-task-select select-highlight">
+                                                                 <option value="none" selected>Không có</option>
+                                                                 <option value="leader">Lớp trưởng</option>
+                                                                 <option value="deputy">Lớp phó</option>
+                                                                 <option value="monitor">Tổ trưởng</option>
+                                                             </select>
+                                                         </td>
+                                                     </tr>
+                                                     <tr class="bg-white border-b hover:bg-gray-50" data-group="2">
+                                                         <td class="px-6 py-4">3</td>
+                                                         <td class="px-6 py-4 font-medium text-gray-900">Trần Bình</td>
+                                                         <td class="px-6 py-4">
+                                                             <select class="p-2 border rounded-md w-full text-sm focus:ring-primary focus:border-primary student-group-select select-highlight">
+                                                                 <option value="none">Chưa phân nhóm</option>
+                                                                 <option value="1">Nhóm 1</option>
+                                                                 <option value="2" selected>Nhóm 2</option>
+                                                                 <option value="3">Nhóm 3</option>
+                                                                 <option value="4">Nhóm 4</option>
+                                                                 <option value="5">Nhóm 5</option>
+                                                             </select>
+                                                         </td>
+                                                         <td class="px-6 py-4">
+                                                             <select class="p-2 border rounded-md w-full text-sm focus:ring-primary focus:border-primary student-task-select select-highlight">
+                                                                 <option value="none">Không có</option>
+                                                                 <option value="leader">Lớp trưởng</option>
+                                                                 <option value="deputy" selected>Lớp phó</option>
+                                                                 <option value="monitor">Tổ trưởng</option>
+                                                             </select>
+                                                         </td>
+                                                     </tr>
+                                                 </tbody>
+                                             </table>
+                                         </div>
                                      </div>
 
                                      <!-- Tab 2: Group Training Plan -->
                                      <div class="tab-panel" id="tab-planning">
-                                        <p class="text-sm text-light mb-4">Lập kế hoạch rèn luyện chi tiết cho từng học sinh trong mỗi nhóm.</p>
-                                        <div class="space-y-6">
-                                            <!-- Group 1 -->
-                                            <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
-                                                <h4 class="font-bold text-lg mb-4 text-primary">Kế hoạch rèn luyện - NHÓM 1</h4>
-                                                <div class="overflow-x-auto">
-                                                    <table class="w-full text-sm">
-                                                        <thead class="text-xs text-gray-700 uppercase bg-gray-200">
-                                                            <tr>
-                                                                <th class="px-4 py-3 w-[18%]">Họ và tên</th>
-                                                                <th class="px-4 py-3 w-[18%]">Thái độ</th>
-                                                                <th class="px-4 py-3 w-[18%]">Kỹ năng</th>
-                                                                <th class="px-4 py-3 w-[18%]">Hành vi</th>
-                                                                <th class="px-4 py-3 w-[28%]">Ghi chú</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <tr class="bg-white border-b">
-                                                                <td class="px-4 py-2 font-medium text-gray-900">Lê An</td>
-                                                                <td class="p-2"><textarea class="w-full h-20 p-1 border rounded-md text-xs" placeholder="Nhận xét..."></textarea></td>
-                                                                <td class="p-2"><textarea class="w-full h-20 p-1 border rounded-md text-xs" placeholder="Nhận xét..."></textarea></td>
-                                                                <td class="p-2"><textarea class="w-full h-20 p-1 border rounded-md text-xs" placeholder="Nhận xét..."></textarea></td>
-                                                                <td class="p-2"><textarea class="w-full h-20 p-1 border rounded-md text-xs" placeholder="Ghi chú..."></textarea></td>
-                                                            </tr>
-                                                            <tr class="bg-white border-b">
-                                                                <td class="px-4 py-2 font-medium text-gray-900">Nguyễn Văn B</td>
-                                                                <td class="p-2"><textarea class="w-full h-20 p-1 border rounded-md text-xs" placeholder="Nhận xét..."></textarea></td>
-                                                                <td class="p-2"><textarea class="w-full h-20 p-1 border rounded-md text-xs" placeholder="Nhận xét..."></textarea></td>
-                                                                <td class="p-2"><textarea class="w-full h-20 p-1 border rounded-md text-xs" placeholder="Nhận xét..."></textarea></td>
-                                                                <td class="p-2"><textarea class="w-full h-20 p-1 border rounded-md text-xs" placeholder="Ghi chú..."></textarea></td>
-                                                            </tr>
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                            </div>
-                                            <!-- Group 2 -->
-                                            <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
-                                                <h4 class="font-bold text-lg mb-4 text-primary">Kế hoạch rèn luyện - NHÓM 2</h4>
-                                                <div class="overflow-x-auto">
-                                                    <table class="w-full text-sm">
-                                                        <thead class="text-xs text-gray-700 uppercase bg-gray-200">
-                                                            <tr>
-                                                                <th class="px-4 py-3 w-[18%]">Họ và tên</th>
-                                                                <th class="px-4 py-3 w-[18%]">Thái độ</th>
-                                                                <th class="px-4 py-3 w-[18%]">Kỹ năng</th>
-                                                                <th class="px-4 py-3 w-[18%]">Hành vi</th>
-                                                                <th class="px-4 py-3 w-[28%]">Ghi chú</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <tr class="bg-white border-b">
-                                                                <td class="px-4 py-2 font-medium text-gray-900">Trần Bình</td>
-                                                                <td class="p-2"><textarea class="w-full h-20 p-1 border rounded-md text-xs" placeholder="Nhận xét..."></textarea></td>
-                                                                <td class="p-2"><textarea class="w-full h-20 p-1 border rounded-md text-xs" placeholder="Nhận xét..."></textarea></td>
-                                                                <td class="p-2"><textarea class="w-full h-20 p-1 border rounded-md text-xs" placeholder="Nhận xét..."></textarea></td>
-                                                                <td class="p-2"><textarea class="w-full h-20 p-1 border rounded-md text-xs" placeholder="Ghi chú..."></textarea></td>
-                                                            </tr>
-                                                        </tbody>
-                                                    </table>
-                                                </div>
+                                        <div class="flex justify-end mb-4">
+                                            <div>
+                                                <label for="training-plan-group-filter" class="text-sm font-medium mr-2">Lọc theo nhóm:</label>
+                                                <select id="training-plan-group-filter" class="p-2 border rounded-md text-sm focus:ring-primary focus:border-primary">
+                                                    <option value="all">Tất cả</option>
+                                                    <option value="1">Nhóm 1</option>
+                                                    <option value="2">Nhóm 2</option>
+                                                </select>
                                             </div>
                                         </div>
+                                         <div id="training-plan-container" class="space-y-6">
+                                             <!-- Group 1 -->
+                                             <div class="training-plan-group bg-gray-50 p-4 rounded-lg border border-gray-200" data-group-id="1">
+                                                 <h4 class="font-bold text-lg mb-4 text-primary">Kế hoạch rèn luyện - NHÓM 1</h4>
+                                                 <div class="overflow-x-auto">
+                                                     <table class="w-full text-sm">
+                                                         <thead class="text-xs text-gray-700 uppercase bg-gray-200">
+                                                             <tr>
+                                                                 <th class="px-4 py-3 sticky-col bg-gray-200 min-w-[150px]">Họ và tên</th>
+                                                                 <th class="px-4 py-3 min-w-[150px]">Phân công</th>
+                                                                 <th class="px-4 py-3 min-w-[150px]">Thái độ</th>
+                                                                 <th class="px-4 py-3 min-w-[150px]">Kỹ năng</th>
+                                                                 <th class="px-4 py-3 min-w-[150px]">Hành vi</th>
+                                                                 <th class="px-4 py-3 min-w-[200px]">Ghi chú</th>
+                                                             </tr>
+                                                         </thead>
+                                                         <tbody>
+                                                             <tr class="bg-white border-b">
+                                                                 <td class="px-4 py-2 font-medium text-gray-900 sticky-col bg-white">Lê An</td>
+                                                                 <td class="px-4 py-2 text-yellow-600 font-semibold">Lớp trưởng</td>
+                                                                 <td class="p-2"><textarea class="w-full h-20 p-1 border rounded-md text-xs" placeholder="Nhận xét..."></textarea></td>
+                                                                 <td class="p-2"><textarea class="w-full h-20 p-1 border rounded-md text-xs" placeholder="Nhận xét..."></textarea></td>
+                                                                 <td class="p-2"><textarea class="w-full h-20 p-1 border rounded-md text-xs" placeholder="Nhận xét..."></textarea></td>
+                                                                 <td class="p-2"><textarea class="w-full h-20 p-1 border rounded-md text-xs" placeholder="Ghi chú..."></textarea></td>
+                                                             </tr>
+                                                             <tr class="bg-white border-b">
+                                                                 <td class="px-4 py-2 font-medium text-gray-900 sticky-col bg-white">Nguyễn Văn B</td>
+                                                                 <td class="px-4 py-2 text-gray-500"></td>
+                                                                 <td class="p-2"><textarea class="w-full h-20 p-1 border rounded-md text-xs" placeholder="Nhận xét..."></textarea></td>
+                                                                 <td class="p-2"><textarea class="w-full h-20 p-1 border rounded-md text-xs" placeholder="Nhận xét..."></textarea></td>
+                                                                 <td class="p-2"><textarea class="w-full h-20 p-1 border rounded-md text-xs" placeholder="Nhận xét..."></textarea></td>
+                                                                 <td class="p-2"><textarea class="w-full h-20 p-1 border rounded-md text-xs" placeholder="Ghi chú..."></textarea></td>
+                                                             </tr>
+                                                         </tbody>
+                                                     </table>
+                                                 </div>
+                                             </div>
+                                             <!-- Group 2 -->
+                                             <div class="training-plan-group bg-gray-50 p-4 rounded-lg border border-gray-200" data-group-id="2">
+                                                 <h4 class="font-bold text-lg mb-4 text-primary">Kế hoạch rèn luyện - NHÓM 2</h4>
+                                                 <div class="overflow-x-auto">
+                                                     <table class="w-full text-sm">
+                                                         <thead class="text-xs text-gray-700 uppercase bg-gray-200">
+                                                             <tr>
+                                                                 <th class="px-4 py-3 sticky-col bg-gray-200 min-w-[150px]">Họ và tên</th>
+                                                                 <th class="px-4 py-3 min-w-[150px]">Phân công</th>
+                                                                 <th class="px-4 py-3 min-w-[150px]">Thái độ</th>
+                                                                 <th class="px-4 py-3 min-w-[150px]">Kỹ năng</th>
+                                                                 <th class="px-4 py-3 min-w-[150px]">Hành vi</th>
+                                                                 <th class="px-4 py-3 min-w-[200px]">Ghi chú</th>
+                                                             </tr>
+                                                         </thead>
+                                                         <tbody>
+                                                             <tr class="bg-white border-b">
+                                                                 <td class="px-4 py-2 font-medium text-gray-900 sticky-col bg-white">Trần Bình</td>
+                                                                 <td class="px-4 py-2 text-blue-600 font-semibold">Lớp phó</td>
+                                                                 <td class="p-2"><textarea class="w-full h-20 p-1 border rounded-md text-xs" placeholder="Nhận xét..."></textarea></td>
+                                                                 <td class="p-2"><textarea class="w-full h-20 p-1 border rounded-md text-xs" placeholder="Nhận xét..."></textarea></td>
+                                                                 <td class="p-2"><textarea class="w-full h-20 p-1 border rounded-md text-xs" placeholder="Nhận xét..."></textarea></td>
+                                                                 <td class="p-2"><textarea class="w-full h-20 p-1 border rounded-md text-xs" placeholder="Ghi chú..."></textarea></td>
+                                                             </tr>
+                                                         </tbody>
+                                                     </table>
+                                                 </div>
+                                             </div>
+                                         </div>
                                      </div>
                                  </div>
                              </div>
@@ -814,7 +871,7 @@
                                     <!-- Competency and Quality Evaluation Panel (Horizontal) -->
                                     <div class="tab-panel active" id="tab-nlpc">
                                         <div class="flex flex-wrap justify-between items-center mb-4 gap-4">
-                                            <h3 class="font-semibold text-lg">Đánh giá Năng lực & Phẩm chất - Lớp 12A3</h3>
+                                            <h3 class="font-semibold text-lg">Đánh giá Năng lực & Phẩm chất - Lớp 1A3</h3>
                                             <div class="flex items-center gap-4">
                                                 <div>
                                                     <label for="group-filter" class="text-sm font-medium mr-2">Lọc theo nhóm:</label>
@@ -839,7 +896,7 @@
                                         <div class="overflow-x-auto">
                                             <table class="w-full text-xs border-collapse border border-gray-300 evaluation-table">
                                                 <thead class="bg-gray-100 text-center font-semibold">
-                                                    <tr>
+                                                    <tr class="sticky-header">
                                                         <th class="border border-gray-300 p-2 sticky-col bg-gray-100 w-[150px]">Năng lực/Phẩm chất</th>
                                                         <th class="border border-gray-300 p-2 sticky-col-2 bg-gray-100 w-[250px]">Biểu hiện hành vi</th>
                                                         <th class="border border-gray-300 p-2 min-w-[100px]">Lê An</th>
@@ -934,7 +991,7 @@
                                     <!-- 3 Goc -->
                                     <div class="tab-panel" id="tab-3-goc">
                                         <div class="bg-white rounded-lg overflow-x-auto">
-                                            <h3 class="font-semibold mb-4">Đánh giá 3 Gốc - Lớp 12A3</h3>
+                                            <h3 class="font-semibold mb-4">Đánh giá 3 Gốc - Lớp 1A3</h3>
                                             <table class="w-full text-sm whitespace-nowrap">
                                                 <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                                                     <tr>
@@ -955,7 +1012,7 @@
                                             </table>
                                         </div>
                                     </div>
-                                    <!-- Van hoa -->
+                                    <!-- Van hoa - RESTRUCTURED -->
                                     <div class="tab-panel" id="tab-van-hoa">
                                         <div class="flex items-center gap-4 mb-4">
                                             <label for="academic-subject-filter" class="text-sm font-medium">Chọn môn học:</label>
@@ -968,33 +1025,33 @@
                                         <div id="academic-evaluation-content" class="hidden">
                                             <h4 id="academic-evaluation-subject-title" class="font-bold text-lg mb-4 text-primary"></h4>
                                             <div class="overflow-x-auto">
-                                                <!-- Table for Math -->
-                                                <table id="academic-table-toan" class="academic-subject-table w-full text-sm whitespace-nowrap">
-                                                    <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+                                                <!-- Table for Math (Restructured) -->
+                                                <table id="academic-table-toan" class="academic-subject-table hidden w-full text-sm">
+                                                    <thead class="text-xs text-gray-700 uppercase bg-gray-50 text-center">
                                                         <tr>
-                                                            <th class="px-4 py-3 sticky-col bg-gray-50 w-[300px]">Tiêu chí</th>
-                                                            <th class="px-4 py-3">Lê An</th>
-                                                            <th class="px-4 py-3">Trần Bình</th>
+                                                            <th class="px-4 py-3 sticky-col bg-gray-50 text-left min-w-[150px]">Học sinh</th>
+                                                            <th class="px-4 py-3 min-w-[200px]">Tính toán nhanh và chính xác</th>
+                                                            <th class="px-4 py-3 min-w-[200px]">Bảng nhân, chia 2 và 5</th>
+                                                            <th class="px-4 py-3 min-w-[200px]">Toán giải</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        <tr class="border-b"><td class="px-4 py-2 sticky-col bg-white font-medium">Tính toán nhanh và chính xác</td><td><div class="star-rating flex justify-center"></div></td><td><div class="star-rating flex justify-center"></div></td></tr>
-                                                        <tr class="border-b"><td class="px-4 py-2 sticky-col bg-white font-medium">Bảng nhân, chia 2 và 5</td><td><div class="star-rating flex justify-center"></div></td><td><div class="star-rating flex justify-center"></div></td></tr>
-                                                        <tr class="border-b"><td class="px-4 py-2 sticky-col bg-white font-medium">Toán giải</td><td><div class="star-rating flex justify-center"></div></td><td><div class="star-rating flex justify-center"></div></td></tr>
+                                                        <tr class="border-b"><td class="px-4 py-2 sticky-col bg-white font-medium text-left">Lê An</td><td><div class="star-rating flex justify-center"></div></td><td><div class="star-rating flex justify-center"></div></td><td><div class="star-rating flex justify-center"></div></td></tr>
+                                                        <tr class="border-b"><td class="px-4 py-2 sticky-col bg-white font-medium text-left">Trần Bình</td><td><div class="star-rating flex justify-center"></div></td><td><div class="star-rating flex justify-center"></div></td><td><div class="star-rating flex justify-center"></div></td></tr>
                                                     </tbody>
                                                 </table>
-                                                <!-- Table for Science - History - Geography -->
-                                                <table id="academic-table-khlsdl" class="academic-subject-table hidden w-full text-sm whitespace-nowrap">
-                                                     <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+                                                <!-- Table for Science - History - Geography (Restructured) -->
+                                                <table id="academic-table-khlsdl" class="academic-subject-table hidden w-full text-sm">
+                                                     <thead class="text-xs text-gray-700 uppercase bg-gray-50 text-center">
                                                         <tr>
-                                                            <th class="px-4 py-3 sticky-col bg-gray-50 w-[300px]">Tiêu chí</th>
-                                                            <th class="px-4 py-3">Lê An</th>
-                                                            <th class="px-4 py-3">Trần Bình</th>
+                                                            <th class="px-4 py-3 sticky-col bg-gray-50 text-left min-w-[150px]">Học sinh</th>
+                                                            <th class="px-4 py-3 min-w-[250px]">Tên gọi và nơi sống của động, thực vật đặc trưng</th>
+                                                            <th class="px-4 py-3 min-w-[250px]">Việc làm thay đổi môi trường sống của động, thực vật</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        <tr class="border-b"><td class="px-4 py-2 sticky-col bg-white font-medium">Tên gọi và nơi sống của động, thực vật đặc trưng.</td><td><div class="star-rating flex justify-center"></div></td><td><div class="star-rating flex justify-center"></div></td></tr>
-                                                        <tr class="border-b"><td class="px-4 py-2 sticky-col bg-white font-medium">Việc làm thay đổi môi trường sống của động, thực vật.</td><td><div class="star-rating flex justify-center"></div></td><td><div class="star-rating flex justify-center"></div></td></tr>
+                                                        <tr class="border-b"><td class="px-4 py-2 sticky-col bg-white font-medium text-left">Lê An</td><td><div class="star-rating flex justify-center"></div></td><td><div class="star-rating flex justify-center"></div></td></tr>
+                                                        <tr class="border-b"><td class="px-4 py-2 sticky-col bg-white font-medium text-left">Trần Bình</td><td><div class="star-rating flex justify-center"></div></td><td><div class="star-rating flex justify-center"></div></td></tr>
                                                     </tbody>
                                                 </table>
                                             </div>
@@ -1002,119 +1059,119 @@
                                     </div>
                                 </div>
                             </div>
-                            <!-- GVKN View -->
+                             <!-- GVKN View -->
                              <div id="gvkn-evaluation-view" class="evaluation-view hidden space-y-6">
                                  <div class="bg-white p-6 rounded-lg shadow">
-                                    <h3 class="font-semibold text-lg mb-4">Đánh giá Kỹ năng - Lớp 12A3</h3>
-                                    <div class="flex items-center gap-4 mb-4">
-                                        <div>
-                                            <label for="skill-subject-filter" class="text-sm font-medium mr-2">Chọn môn học:</label>
-                                            <select id="skill-subject-filter" class="p-2 border rounded-md text-sm focus:ring-primary focus:border-primary">
-                                                <option value="">-- Vui lòng chọn môn --</option>
-                                                <option value="giao-duc-cam-xuc">GIÁO DỤC CẢM XÚC</option>
-                                                <option value="my-thuat-cong-nghe">MỸ THUẬT/ CÔNG NGHỆ</option>
-                                                <option value="giao-duc-the-chat">GIÁO DỤC THỂ CHẤT</option>
-                                                <option value="tin-hoc">TIN HỌC</option>
-                                                <option value="vo-thuat">VÕ THUẬT</option>
-                                                <option value="boi-lan">BƠI - LẶN</option>
-                                                <option value="sinh-ton">SINH TỒN</option>
-                                                <option value="am-nhac">ÂM NHẠC</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div id="skill-evaluation-content" class="hidden">
-                                        <h4 id="skill-evaluation-subject-title" class="font-bold text-lg mb-4 text-primary"></h4>
-                                        <div class="overflow-x-auto">
-                                            <table class="w-full text-sm whitespace-nowrap">
-                                                <thead class="text-xs text-gray-700 uppercase bg-gray-50">
-                                                    <tr>
-                                                        <th class="px-4 py-3 sticky-col bg-gray-50">Học sinh</th>
-                                                        <th class="px-4 py-3">Tiếp thu kiến thức</th>
-                                                        <th class="px-4 py-3">Kỹ năng thực hành</th>
-                                                        <th class="px-4 py-3">Thái độ học tập</th>
-                                                        <th class="px-4 py-3">Nhận xét chung</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr class="border-b"><td class="px-4 py-2 sticky-col bg-white font-medium">Lê An</td><td><div class="star-rating flex justify-center"></div></td><td><div class="star-rating flex justify-center"></div></td><td><div class="star-rating flex justify-center"></div></td><td class="text-center"><button class="p-2 rounded-full hover:bg-gray-100"><i data-lucide="message-square-plus" class="w-5 h-5 text-gray-500"></i></button></td></tr>
-                                                    <tr class="border-b"><td class="px-4 py-2 sticky-col bg-white font-medium">Trần Bình</td><td><div class="star-rating flex justify-center"></div></td><td><div class="star-rating flex justify-center"></div></td><td><div class="star-rating flex justify-center"></div></td><td class="text-center"><button class="p-2 rounded-full hover:bg-gray-100"><i data-lucide="message-square-plus" class="w-5 h-5 text-gray-500"></i></button></td></tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                 </div>
+                                     <h3 class="font-semibold text-lg mb-4">Đánh giá Kỹ năng - Lớp 1A3</h3>
+                                     <div class="flex items-center gap-4 mb-4">
+                                         <div>
+                                             <label for="skill-subject-filter" class="text-sm font-medium mr-2">Chọn môn học:</label>
+                                             <select id="skill-subject-filter" class="p-2 border rounded-md text-sm focus:ring-primary focus:border-primary">
+                                                 <option value="">-- Vui lòng chọn môn --</option>
+                                                 <option value="giao-duc-cam-xuc">GIÁO DỤC CẢM XÚC</option>
+                                                 <option value="my-thuat-cong-nghe">MỸ THUẬT/ CÔNG NGHỆ</option>
+                                                 <option value="giao-duc-the-chat">GIÁO DỤC THỂ CHẤT</option>
+                                                 <option value="tin-hoc">TIN HỌC</option>
+                                                 <option value="vo-thuat">VÕ THUẬT</option>
+                                                 <option value="boi-lan">BƠI - LẶN</option>
+                                                 <option value="sinh-ton">SINH TỒN</option>
+                                                 <option value="am-nhac">ÂM NHẠC</option>
+                                             </select>
+                                         </div>
+                                     </div>
+                                     <div id="skill-evaluation-content" class="hidden">
+                                         <h4 id="skill-evaluation-subject-title" class="font-bold text-lg mb-4 text-primary"></h4>
+                                         <div class="overflow-x-auto">
+                                             <table class="w-full text-sm whitespace-nowrap">
+                                                 <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+                                                     <tr>
+                                                         <th class="px-4 py-3 sticky-col bg-gray-50">Học sinh</th>
+                                                         <th class="px-4 py-3">Tiếp thu kiến thức</th>
+                                                         <th class="px-4 py-3">Kỹ năng thực hành</th>
+                                                         <th class="px-4 py-3">Thái độ học tập</th>
+                                                         <th class="px-4 py-3">Nhận xét chung</th>
+                                                     </tr>
+                                                 </thead>
+                                                 <tbody>
+                                                     <tr class="border-b"><td class="px-4 py-2 sticky-col bg-white font-medium">Lê An</td><td><div class="star-rating flex justify-center"></div></td><td><div class="star-rating flex justify-center"></div></td><td><div class="star-rating flex justify-center"></div></td><td class="text-center"><button class="p-2 rounded-full hover:bg-gray-100"><i data-lucide="message-square-plus" class="w-5 h-5 text-gray-500"></i></button></td></tr>
+                                                     <tr class="border-b"><td class="px-4 py-2 sticky-col bg-white font-medium">Trần Bình</td><td><div class="star-rating flex justify-center"></div></td><td><div class="star-rating flex justify-center"></div></td><td><div class="star-rating flex justify-center"></div></td><td class="text-center"><button class="p-2 rounded-full hover:bg-gray-100"><i data-lucide="message-square-plus" class="w-5 h-5 text-gray-500"></i></button></td></tr>
+                                                 </tbody>
+                                             </table>
+                                         </div>
+                                     </div>
+                                  </div>
                              </div>
                              <!-- GVTA View -->
                              <div id="gvta-evaluation-view" class="evaluation-view hidden space-y-6">
-                                 <div class="bg-white p-6 rounded-lg shadow">
-                                    <div class="flex flex-wrap justify-between items-center mb-4 gap-4">
-                                        <h3 class="font-semibold text-lg">Đánh giá Tiếng Anh - Lớp 12A3</h3>
-                                        <div class="flex items-center gap-4">
-                                            <div>
-                                                <label for="month-select-ta" class="text-sm font-medium mr-2">Chọn tháng:</label>
-                                                <select id="month-select-ta" class="p-2 border rounded-md text-sm focus:ring-primary focus:border-primary">
-                                                    <option>Tháng 8</option>
-                                                    <option>Tháng 9</option>
-                                                    <option>Tháng 10</option>
-                                                </select>
-                                            </div>
-                                            <div>
-                                                <label for="week-select-ta" class="text-sm font-medium mr-2">Chọn tuần:</label>
-                                                <select id="week-select-ta" class="p-2 border rounded-md text-sm focus:ring-primary focus:border-primary">
-                                                    <option>Tuần 1 (19/08 - 23/08)</option>
-                                                    <option>Tuần 2 (26/08 - 30/08)</option>
-                                                </select>
-                                            </div>
-                                            <div>
-                                                <label for="group-filter-ta" class="text-sm font-medium mr-2">Lọc theo nhóm:</label>
-                                                <select id="group-filter-ta" class="p-2 border rounded-md text-sm focus:ring-primary focus:border-primary">
-                                                    <option value="all">Tất cả các nhóm</option>
-                                                    <option value="1">Nhóm 1</option>
-                                                    <option value="2">Nhóm 2</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="overflow-x-auto">
-                                        <table class="w-full text-sm whitespace-nowrap">
-                                            <thead class="text-xs text-gray-700 uppercase bg-gray-50">
-                                                <tr>
-                                                    <th rowspan="2" class="px-4 py-3 sticky-col bg-gray-50 align-middle">Học sinh</th>
-                                                    <th colspan="2" class="px-4 py-3 text-center border-l border-gray-300">Vocabulary</th>
-                                                    <th colspan="2" class="px-4 py-3 text-center border-l border-gray-300">Explore Language 1</th>
-                                                    <th colspan="2" class="px-4 py-3 text-center border-l border-gray-300">Explore Language 2</th>
-                                                    <th rowspan="2" class="px-4 py-3 align-middle border-l border-gray-300">Writing</th>
-                                                </tr>
-                                                <tr>
-                                                    <th class="px-4 py-3 border-l border-gray-300">Listening</th>
-                                                    <th class="px-4 py-3">Vocab</th>
-                                                    <th class="px-4 py-3 border-l border-gray-300">Speaking</th>
-                                                    <th class="px-4 py-3">Grammar 1</th>
-                                                    <th class="px-4 py-3 border-l border-gray-300">Reading</th>
-                                                    <th class="px-4 py-3">Grammar 2</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr class="border-b"><td class="px-4 py-2 sticky-col bg-white font-medium">Lê An</td><td><div class="star-rating flex justify-center"></div></td><td><div class="star-rating flex justify-center"></div></td><td><div class="star-rating flex justify-center"></div></td><td><div class="star-rating flex justify-center"></div></td><td><div class="star-rating flex justify-center"></div></td><td><div class="star-rating flex justify-center"></div></td><td><div class="star-rating flex justify-center"></div></td></tr>
-                                                <tr class="border-b"><td class="px-4 py-2 sticky-col bg-white font-medium">Trần Bình</td><td><div class="star-rating flex justify-center"></div></td><td><div class="star-rating flex justify-center"></div></td><td><div class="star-rating flex justify-center"></div></td><td><div class="star-rating flex justify-center"></div></td><td><div class="star-rating flex justify-center"></div></td><td><div class="star-rating flex justify-center"></div></td><td><div class="star-rating flex justify-center"></div></td></tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                 </div>
+                                  <div class="bg-white p-6 rounded-lg shadow">
+                                     <div class="flex flex-wrap justify-between items-center mb-4 gap-4">
+                                         <h3 class="font-semibold text-lg">Đánh giá Tiếng Anh - Lớp 1A3</h3>
+                                         <div class="flex items-center gap-4">
+                                             <div>
+                                                 <label for="month-select-ta" class="text-sm font-medium mr-2">Chọn tháng:</label>
+                                                 <select id="month-select-ta" class="p-2 border rounded-md text-sm focus:ring-primary focus:border-primary">
+                                                     <option>Tháng 8</option>
+                                                     <option>Tháng 9</option>
+                                                     <option>Tháng 10</option>
+                                                 </select>
+                                             </div>
+                                             <div>
+                                                 <label for="week-select-ta" class="text-sm font-medium mr-2">Chọn tuần:</label>
+                                                 <select id="week-select-ta" class="p-2 border rounded-md text-sm focus:ring-primary focus:border-primary">
+                                                     <option>Tuần 1 (19/08 - 23/08)</option>
+                                                     <option>Tuần 2 (26/08 - 30/08)</option>
+                                                 </select>
+                                             </div>
+                                             <div>
+                                                 <label for="group-filter-ta" class="text-sm font-medium mr-2">Lọc theo nhóm:</label>
+                                                 <select id="group-filter-ta" class="p-2 border rounded-md text-sm focus:ring-primary focus:border-primary">
+                                                     <option value="all">Tất cả các nhóm</option>
+                                                     <option value="1">Nhóm 1</option>
+                                                     <option value="2">Nhóm 2</option>
+                                                 </select>
+                                             </div>
+                                         </div>
+                                     </div>
+                                     <div class="overflow-x-auto">
+                                         <table class="w-full text-sm whitespace-nowrap">
+                                             <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+                                                 <tr>
+                                                     <th rowspan="2" class="px-4 py-3 sticky-col bg-gray-50 align-middle">Học sinh</th>
+                                                     <th colspan="2" class="px-4 py-3 text-center border-l border-gray-300">Vocabulary</th>
+                                                     <th colspan="2" class="px-4 py-3 text-center border-l border-gray-300">Explore Language 1</th>
+                                                     <th colspan="2" class="px-4 py-3 text-center border-l border-gray-300">Explore Language 2</th>
+                                                     <th rowspan="2" class="px-4 py-3 align-middle border-l border-gray-300">Writing</th>
+                                                 </tr>
+                                                 <tr>
+                                                     <th class="px-4 py-3 border-l border-gray-300">Listening</th>
+                                                     <th class="px-4 py-3">Vocab</th>
+                                                     <th class="px-4 py-3 border-l border-gray-300">Speaking</th>
+                                                     <th class="px-4 py-3">Grammar 1</th>
+                                                     <th class="px-4 py-3 border-l border-gray-300">Reading</th>
+                                                     <th class="px-4 py-3">Grammar 2</th>
+                                                 </tr>
+                                             </thead>
+                                             <tbody>
+                                                 <tr class="border-b"><td class="px-4 py-2 sticky-col bg-white font-medium">Lê An</td><td><div class="star-rating flex justify-center"></div></td><td><div class="star-rating flex justify-center"></div></td><td><div class="star-rating flex justify-center"></div></td><td><div class="star-rating flex justify-center"></div></td><td><div class="star-rating flex justify-center"></div></td><td><div class="star-rating flex justify-center"></div></td><td><div class="star-rating flex justify-center"></div></td></tr>
+                                                 <tr class="border-b"><td class="px-4 py-2 sticky-col bg-white font-medium">Trần Bình</td><td><div class="star-rating flex justify-center"></div></td><td><div class="star-rating flex justify-center"></div></td><td><div class="star-rating flex justify-center"></div></td><td><div class="star-rating flex justify-center"></div></td><td><div class="star-rating flex justify-center"></div></td><td><div class="star-rating flex justify-center"></div></td><td><div class="star-rating flex justify-center"></div></td></tr>
+                                             </tbody>
+                                         </table>
+                                     </div>
+                                  </div>
                              </div>
                         </div>
 
                         <!-- Report Export Screen -->
                         <div id="report-export" class="screen">
                               <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
-                                 <div><h1 class="text-2xl font-bold text-dark">Tổng hợp và Xuất Báo cáo</h1><p class="text-light">Chọn học sinh để xem và xuất phiếu nhận xét.</p></div>
-                                 <button class="btn-accent py-2 px-4 rounded-lg flex items-center space-x-2 mt-4 md:mt-0"><i data-lucide="printer" class="w-5 h-5"></i><span>In hoặc Lưu PDF</span></button>
+                                   <div><h1 class="text-2xl font-bold text-dark">Tổng hợp và Xuất Báo cáo</h1><p class="text-light">Chọn học sinh để xem và xuất phiếu nhận xét.</p></div>
+                                   <button class="btn-accent py-2 px-4 rounded-lg flex items-center space-x-2 mt-4 md:mt-0"><i data-lucide="printer" class="w-5 h-5"></i><span>In hoặc Lưu PDF</span></button>
                             </div>
                             <div class="bg-white p-6 rounded-lg shadow">
                                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                                     <!-- Student List -->
                                     <div class="lg:col-span-1 border-r pr-6">
-                                        <h2 class="font-bold mb-4">Danh sách học sinh - Lớp 12A3</h2>
+                                        <h2 class="font-bold mb-4">Danh sách học sinh - Lớp 1A3</h2>
                                         <div class="space-y-2">
                                             <a href="#" class="block p-3 rounded-lg bg-blue-100 text-primary font-semibold">Lê An</a>
                                             <a href="#" class="block p-3 rounded-lg hover:bg-gray-100">Trần Bình</a>
@@ -1131,7 +1188,7 @@
                                             </div>
                                             <div class="flex justify-between mb-4">
                                                 <p><strong>Họ và tên học sinh:</strong> Lê An</p>
-                                                <p><strong>Lớp:</strong> 12A3</p>
+                                                <p><strong>Lớp:</strong> 1A3</p>
                                             </div>
                                             
                                             <!-- Competencies & Qualities Table -->
@@ -1152,11 +1209,11 @@
                                                 <tr class="report-header"><td class="report-cell" colspan="3">ĐÁNH GIÁ MÔN HỌC VĂN HÓA (GVCN)</td></tr>
                                                 <!-- Sub-section for Math -->
                                                 <tr class="bg-gray-100 font-semibold"><td class="report-cell" colspan="3">Môn: Toán</td></tr>
-                                                <tr><td class="report-cell pl-8 w-1/2">Tính toán nhanh và chính xác</td><td class="report-cell text-center w-1/6">Mức 3</td><td class="report-cell w-1/3">Con tính toán rất tốt.</td></tr>
-                                                <tr><td class="report-cell pl-8">Bảng nhân, chia 2 và 5</td><td class="report-cell text-center">Mức 3</td><td class="report-cell">Thuộc và vận dụng thành thạo.</td></tr>
+                                                <tr><td class="report-cell w-1/3">Tính toán nhanh và chính xác</td><td class="report-cell text-center">Mức 3</td><td class="report-cell w-1/2">Con tính toán rất tốt.</td></tr>
+                                                <tr><td class="report-cell">Bảng nhân, chia 2 và 5</td><td class="report-cell text-center">Mức 3</td><td class="report-cell">Thuộc và vận dụng thành thạo.</td></tr>
                                                 <!-- Sub-section for Science -->
                                                 <tr class="bg-gray-100 font-semibold"><td class="report-cell" colspan="3">Môn: Khoa học - Lịch sử - Địa lý</td></tr>
-                                                <tr><td class="report-cell pl-8">Tên gọi và nơi sống của động, thực vật đặc trưng.</td><td class="report-cell text-center">Mức 2</td><td class="report-cell">Con nhận biết tốt, cần ghi nhớ thêm.</td></tr>
+                                                <tr><td class="report-cell">Tên gọi và nơi sống của động, thực vật đặc trưng.</td><td class="report-cell text-center">Mức 2</td><td class="report-cell">Con nhận biết tốt, cần ghi nhớ thêm.</td></tr>
                                             </table>
 
                                             <!-- English Language Subjects Table -->
@@ -1211,7 +1268,7 @@
                 <form class="space-y-4">
                     <div>
                         <label for="username" class="block text-sm font-medium text-gray-700">Tên đăng nhập</label>
-                        <input type="text" id="username" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-primary focus:border-primary">
+                        <input type="text" id="username" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-primary focus:border-primary" value="gvcn">
                     </div>
                     <div>
                         <label for="password" class="block text-sm font-medium text-gray-700">Mật khẩu</label>
@@ -1369,6 +1426,11 @@
         const gvknClassSelect = document.getElementById('gvkn-class-select');
         const classSetupTitle = document.getElementById('class-setup-title');
         const classSetupContent = document.getElementById('class-setup-content');
+        const classSetupGroupFilter = document.getElementById('class-setup-group-filter');
+        const assignmentTable = document.getElementById('assignment-table');
+        const trainingPlanGroupFilter = document.getElementById('training-plan-group-filter');
+        const trainingPlanContainer = document.getElementById('training-plan-container');
+
 
         // GVKN Evaluation
         const skillSubjectFilter = document.getElementById('skill-subject-filter');
@@ -1564,6 +1626,8 @@
                 userNameEl.textContent = 'Trần Minh Tuấn';
                 userRoleEl.textContent = 'QTV / BGH';
                 adminSwitcher.style.display = 'flex';
+                classSetupTitle.textContent = 'Thiết lập Lớp học - 1A3';
+                classSetupContent.classList.remove('hidden');
                 setTimeout(initAdminCharts, 0); 
             } else if (role === 'chuyen_mon') {
                 userNameEl.textContent = 'Phạm Văn Khoa';
@@ -1575,7 +1639,7 @@
                 userNameEl.textContent = 'Nguyễn Văn A';
                 userRoleEl.textContent = 'GVCN';
                 document.getElementById('gvcn-evaluation-view').classList.remove('hidden');
-                classSetupTitle.textContent = 'Thiết lập Lớp học - 12A3';
+                classSetupTitle.textContent = 'Thiết lập Lớp học - 1A3';
                 classSetupContent.classList.remove('hidden');
             } else if (role === 'skill_teacher') {
                 userNameEl.textContent = 'Phan Anh Tuấn';
@@ -1587,10 +1651,11 @@
                 userNameEl.textContent = 'Trần Thị B';
                 userRoleEl.textContent = 'GV Tiếng Anh';
                 document.getElementById('gvta-evaluation-view').classList.remove('hidden');
-                classSetupTitle.textContent = 'Thiết lập Lớp học - 12A3';
+                classSetupTitle.textContent = 'Thiết lập Lớp học - 1A3';
                 classSetupContent.classList.remove('hidden');
             }
             setupUIForRole(role);
+            updateAllSelectHighlights();
         }
 
         function logout() {
@@ -1639,12 +1704,61 @@
                 ratingContainer.classList.add(`rating-${newRating}`);
             }
         }
+        
+        function updateSelectHighlight(selectElement) {
+            // Clear previous highlights
+            selectElement.classList.remove('group-1', 'group-2', 'group-3', 'group-4', 'group-5', 'task-leader', 'task-deputy', 'task-monitor');
+
+            const value = selectElement.value;
+            if (selectElement.classList.contains('student-group-select')) {
+                if (value !== 'none') {
+                    selectElement.classList.add(`group-${value}`);
+                }
+            } else if (selectElement.classList.contains('student-task-select')) {
+                 if (value !== 'none') {
+                    selectElement.classList.add(`task-${value}`);
+                }
+            }
+        }
+
+        function updateAllSelectHighlights() {
+            document.querySelectorAll('.select-highlight').forEach(updateSelectHighlight);
+        }
+
+        function filterStudentGroups() {
+            const filterValue = classSetupGroupFilter.value;
+            const rows = assignmentTable.querySelectorAll('tbody tr');
+            rows.forEach(row => {
+                const groupSelect = row.querySelector('.student-group-select');
+                if (!groupSelect) return;
+                
+                const studentGroup = groupSelect.value;
+                if (filterValue === 'all' || studentGroup === filterValue) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        }
+        
+        function filterTrainingPlanGroups() {
+            const filterValue = trainingPlanGroupFilter.value;
+            const groups = trainingPlanContainer.querySelectorAll('.training-plan-group');
+            groups.forEach(group => {
+                const groupId = group.dataset.groupId;
+                if (filterValue === 'all' || groupId === filterValue) {
+                    group.style.display = 'block';
+                } else {
+                    group.style.display = 'none';
+                }
+            });
+        }
+
 
         // --- EVENT LISTENERS ---
         loginBtn.addEventListener('click', () => {
             // Dummy login logic
-            // In a real app, you'd validate credentials and get the role from the server
-            const username = document.getElementById('username').value;
+            const username = document.getElementById('username').value.toLowerCase();
             if (username.includes('admin')) login('admin');
             else if (username.includes('chuyenmon')) login('chuyen_mon');
             else if (username.includes('gvcn')) login('teacher');
@@ -1722,8 +1836,15 @@
                  tabPanelContainer.querySelectorAll('.tab-panel').forEach(panel => panel.classList.remove('active'));
                  const targetPanel = document.getElementById(tabButton.dataset.tab);
                  if (targetPanel) {
-                    targetPanel.classList.add('active');
+                     targetPanel.classList.add('active');
                  }
+            }
+        });
+        
+        // Change listener for select highlights
+        appContainer.addEventListener('change', (e) => {
+            if (e.target.classList.contains('select-highlight')) {
+                updateSelectHighlight(e.target);
             }
         });
 
@@ -1800,17 +1921,28 @@
 
         // Star Rating Initialization and Event Handling
         document.querySelectorAll('.star-rating').forEach(ratingContainer => {
+            if (ratingContainer.children.length > 0) return; // Already initialized
             for (let i = 1; i <= 3; i++) {
                 const starSpan = document.createElement('span');
                 starSpan.classList.add('star');
                 starSpan.dataset.value = i;
-                starSpan.innerHTML = `<i data-lucide="star" class="w-5 h-5 fill-current"></i>`;
+                starSpan.innerHTML = `<i data-lucide="star" class="w-5 h-5 fill-current pointer-events-none"></i>`;
                 ratingContainer.appendChild(starSpan);
             }
             ratingContainer.dataset.rating = 0;
             ratingContainer.addEventListener('click', handleStarRating);
         });
         lucide.createIcons(); // Re-run to create new star icons
+        
+        // Class setup group filter
+        if (classSetupGroupFilter) {
+            classSetupGroupFilter.addEventListener('change', filterStudentGroups);
+        }
+
+        // Training plan group filter
+        if (trainingPlanGroupFilter) {
+            trainingPlanGroupFilter.addEventListener('change', filterTrainingPlanGroups);
+        }
 
         // --- INITIAL SETUP ---
         showScreen('auth-screen');
